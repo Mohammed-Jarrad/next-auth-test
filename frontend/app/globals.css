@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+    .center {
+        @apply flex items-center justify-center;
+    }
+}
+
+@layer components {
+    .input {
+        @apply border border-transparent px-4 py-2 rounded-lg placeholder:text-white/40 bg-white/5 focus:border-amber-500 outline-none transition-all fill-none;
+    }
+
+    .btn {
+        @apply border border-white/20 px-4 py-2 rounded-lg text-white bg-amber-500 w-full hover:bg-amber-600 transition-colors;
+    }
+}
