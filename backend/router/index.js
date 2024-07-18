@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { getCookieValue } from "../lib/utils.js";
 
 const router = Router();
 
@@ -9,7 +10,7 @@ router.post("/api/login", async (_req, res, _next) => {
         httpOnly: true,
         expires: new Date(Date.now() + 60 * 60 * 24 * 30 * 1000),
     });
-    res.cookie("name", JSON.stringify({ username: "mohammed", role: "admin" }), {
+    res.cookie("user", JSON.stringify({ username: "mohammed", role: "admin" }), {
         maxAge: 60 * 60 * 24 * 30 /* 1 day */,
         expires: new Date(Date.now() + 60 * 60 * 24 * 30 * 1000), // 1 month
         httpOnly: true,
@@ -18,16 +19,11 @@ router.post("/api/login", async (_req, res, _next) => {
 });
 
 router.post("/api/logout", (req, res, _next) => {
-    res.cookie("token", "", { maxAge: -1 });
+    res.cookie("token", "", { maxAge: -1 }); // -1 means delete the cookie
+    res.cookie("user", "", { maxAge: -1 }); // -1 means delete the cookie
     res.json({ message: "success" });
 });
 
-function getCookieValue(cookies, cookieName) {
-    const cookieValue = cookies
-        ?.split(";")
-        .find((cookie) => cookie.trim().startsWith(`${cookieName}=`));
-    return cookieValue ? cookieValue.split("=")[1] : "";
-}
 router.get("/api/user-info", (req, res, _next) => {
     try {
         // check if the req cookies has the token

@@ -2,9 +2,9 @@
 import { authAxios } from "@/lib/axios";
 import { cookies } from "next/headers";
 
-export async function getCookieValue(key: string) {
+export async function getCookieValue(key: string): Promise<any | null> {
     const cookieValue = cookies().get(key)?.value || "";
-    return JSON.parse(cookieValue);
+    return cookieValue ? JSON.parse(cookieValue) : null;
 }
 
 export async function getToken() {

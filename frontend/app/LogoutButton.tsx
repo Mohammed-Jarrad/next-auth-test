@@ -1,16 +1,22 @@
 "use client";
-import { logout } from "@/api/api";
-import { useRouter } from "next/navigation";
-import React from "react";
+import { axiosInstance } from "@/lib/axios";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
-const LogoutButton = () => {
-    const router = useRouter();
+const LogoutButton = ({ user }: { user: { username: string; role: string } | null }) => {
+    const logoutQuery = useMutation({
+        mutationFn: async () => {
+            const { data } = await axiosInstance.post("/api/logout");
+            return data;
+        },
+        onSuccess() {
+            window.location.reload();
+        },
+    });
+
+    if (!user) return null;
 
     return (
-        <button
-            onClick={async () => await logout().then(() => router.push("/"))}
-            className="btn w-fit"
-        >
+        <button onClick={() => logoutQuery.mutate()} className="btn w-fit">
             Log out
         </button>
     );

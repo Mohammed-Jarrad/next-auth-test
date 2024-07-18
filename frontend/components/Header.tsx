@@ -50,7 +50,7 @@ function HeaderLink({ href, children }: { href: string; children: React.ReactNod
 }
 
 function CreateTokenButton() {
-    const sendCokkiesMutation = useMutation({
+    const loginMutation = useMutation({
         mutationFn: async () => {
             const { data } = await authAxios.post("/api/login", {});
             return data;
@@ -62,13 +62,13 @@ function CreateTokenButton() {
 
     return (
         <button
-            className="btn min-w-fit"
+            className="btn min-w-fit rounded-full"
             onClick={() => {
-                sendCokkiesMutation.mutate();
+                loginMutation.mutate();
             }}
-            disabled={sendCokkiesMutation.isPending}
+            disabled={loginMutation.isPending}
         >
-            {sendCokkiesMutation.isPending ? "Loading..." : "Create Token (login)"}
+            {loginMutation.isPending ? "Loading..." : "Create Token (login)"}
         </button>
     );
 }

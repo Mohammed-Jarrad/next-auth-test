@@ -13,8 +13,6 @@ const ProfilePage = () => {
         },
     });
 
-    console.log(document.cookie)
-
     if (getUserQuery.isLoading) {
         return (
             <div className="center">
